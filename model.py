@@ -74,3 +74,5 @@ class Atendimento:
         
         self.procedimentos_realizados = []
         self.pagamentos_realizados = []
+
+#fim parcial 1
