@@ -1,6 +1,6 @@
 from datetime import date, time
 from model import Clinica, Paciente, ProfissionalSaude, TipoAtendimento, Atendimento, Procedimento, Dinheiro, Pix, CartaoCredito
-from view import ViewPrincipal, ViewCadastro, ViewRegistro, ViewRelatorio
+from visualizacao import ViewPrincipal, ViewCadastro, ViewRegistro, ViewRelatorio
 
 class ControladorPrincipal:
     def __init__(self):
@@ -143,7 +143,7 @@ class ControladorPrincipal:
                     self.__view_principal.exibir_erro("Profissional Responsável não localizado.")
                     continue
                 
-                self.__atendimentos[idx].adicionar_procedimento(Procedimento(d["descricao"], d["custo"], prof))
+                self.__atendimentos[idx].adicionar_procedimento(Procedimento(d["descricao"], d["custo"], profissional))
                 self.__view_principal.exibir_mensagem("Procedimento adicionado com sucesso!")
                 
             elif op == 4:  # Registrar Pagamento
