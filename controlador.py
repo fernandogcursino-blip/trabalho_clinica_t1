@@ -38,12 +38,14 @@ class ControladorPrincipal:
                     continue
                 self.__pacientes.append(Paciente(d["nome"], d["celular"], d["cpf"], d["data_nascimento"]))
                 self.__view_principal.exibir_mensagem("Paciente incluído com sucesso!")
+
             elif op == 2:  # Listagem Pacientes
                 print("\n=== LISTA DE PACIENTES ===")
                 for p in self.__pacientes:
                     m = "Sim" if p.eh_maior_de_idade else "Não"
                     print(f"Nome: {p.nome} | CPF: {p.cpf} | Maior de Idade: {m}")
                 input("\nPressione Enter...")
+
             elif op == 3:  # Alteração Paciente
                 cpf = input("Digite o CPF do paciente a alterar: ").strip()
                 pac = next((p for p in self.__pacientes if p.cpf == cpf), None)
@@ -53,6 +55,7 @@ class ControladorPrincipal:
                 d = self.__view_cadastro.obter_dados_paciente()
                 pac.nome, pac.celular, pac.data_nascimento = d["nome"], d["celular"], d["data_nascimento"]
                 self.__view_principal.exibir_mensagem("Cadastro alterado com sucesso!")
+
             elif op == 4:  # Exclusão Paciente
                 cpf = input("Digite o CPF para exclusão: ").strip()
                 pac = next((p for p in self.__pacientes if p.cpf == cpf), None)
@@ -61,6 +64,7 @@ class ControladorPrincipal:
                     self.__view_principal.exibir_mensagem("Paciente removido!")
                 else:
                     self.__view_principal.exibir_erro("Paciente não encontrado.")
+
             elif op == 5:  # Inclusão Profissional
                 d = self.__view_cadastro.obter_dados_profissional()
                 if any(pr.cpf == d["cpf"] for pr in self.__profissionais):
@@ -68,20 +72,32 @@ class ControladorPrincipal:
                     continue
                 self.__profissionais.append(ProfissionalSaude(d["nome"], d["celular"], d["cpf"], d["especialidade"], d["registro_profissional"]))
                 self.__view_principal.exibir_mensagem("Profissional cadastrado com sucesso!")
+
             elif op == 6:  # Listagem Profissionais
                 print("\n=== LISTA DE PROFISSIONAIS ===")
                 for pr in self.__profissionais:
                     print(f"Dr(a). {pr.nome} | Especialidade: {pr.especialidade} | Registro: {pr.registro_profissional}")
                 input("\nPressione Enter...")
-            elif op == 7:  # Inclusão Tipo Atendimento
-                nome = input("Nome do novo tipo de atendimento: ").strip()
-                self.__tipos_atendimento.append(TipoAtendimento(nome))
-                self.__view_principal.exibir_mensagem("Tipo incluído com sucesso!")
-            elif op == 8:  # Listagem Tipos
-                print("\n=== TIPOS DE ATENDIMENTO CRIADOS ===")
-                for t in self.__tipos_atendimento: 
-                    print(f"- {t.nome}")
-                input("\nPressione Enter...")
+
+            elif op == 7:  # Alteração Profissional de Saúde
+                cpf = input("Digite o CPF do profissional a alterar: ").strip()
+                prof = next((pr for pr in self.__profissionais if pr.cpf == cpf), None)
+                if not prof:
+                    self.__view_principal.exibir_erro("Profissional não encontrado.")
+                    continue
+                d = self.__view_cadastro.obter_dados_profissional()
+                prof.nome, prof.celular, prof.especialidade, prof.registro_profissional = d["nome"], d["celular"], d["especialidade"], d["registro_profissional"]
+                self.__view_principal.exibir_mensagem("Dados do profissional alterados com sucesso!")
+
+            elif op == 8:  # Exclusão Profissional de Saúde
+                cpf = input("Digite o CPF do profissional para exclusão: ").strip()
+                prof = next((pr for pr in self.__profissionais if pr.cpf == cpf), None)
+                if prof:
+                    self.__profissionais.remove(prof)
+                    self.__view_principal.exibir_mensagem("Profissional removido com sucesso!")
+                else:
+                    self.__view_principal.exibir_erro("Profissional não encontrado.")
+
             elif op == 9:  # Alterar dados da Clínica
                 print("\n=== ALTERAR DADOS DA CLÍNICA ===")
                 c = self.__clinicas[0]
